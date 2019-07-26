@@ -55,7 +55,7 @@ char *argv[];
   }
 }
 
-void main(argc, argv) int argc;
+int main(argc, argv) int argc;
 char *argv[];
 {
   puts("as6502 -- A 6502 Assembler");
@@ -111,4 +111,6 @@ char *argv[];
     writecode(objfile);
     close(objfile);
   }
+
+	return 0;
 }

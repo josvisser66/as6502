@@ -1,15 +1,17 @@
 /* Library manager for the 6502 set */
 
-#include "jos.h"
-#include "as6502.h"
-#include "obj65.h"
-#include "compat.h"
-
-#include <stdio.h>
-#include <string.h>
-#include <fcntl.h>
 #include <errno.h>
+#include <fcntl.h>
+#include <stdarg.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+
+#include "as6502.h"
+#include "compat.h"
+#include "jos.h"
+#include "obj65.h"
 
 struct lib {
   char modname[13];
@@ -23,14 +25,15 @@ char *libname = NULL;
 char *flagL = NULL;
 struct lib *root = NULL;
 
-void fatal(s, args) char *s;
-char args;
-{
+void fatal(char *s, ...) {
+  va_list args;
   char line[132];
 
-  vsprintf(line, s, &args);
+  va_start(args, s);
+  vsprintf(line, s, args);
+  va_end(args);
   printf("FATAL: %s\n", line);
-  exit(999);
+  exit(1);
 }
 
 #define READ(a, b, c)                                                          \
@@ -66,7 +69,7 @@ void writeout() {
 void bringin() {
   struct lib *work;
   int readd;
-  int handle = open(libname, O_RDONLY | O_CREAT , 255);
+  int handle = open(libname, O_RDONLY | O_CREAT, 255);
   char modname[13];
 
   if (handle == -1) {
@@ -105,7 +108,7 @@ struct lib *bringin2a(modname) char *modname;
   char file[MAXFILE];
   char newpath[MAXPATH];
   char ext[MAXEXT];
-  int handle = open(modname, O_RDONLY );
+  int handle = open(modname, O_RDONLY);
 
   work = GETCORE(struct lib);
 
@@ -218,7 +221,7 @@ void ocopy(obj) struct lib *obj;
   if (!work)
     fatal("Module %s not in library", obj->modname);
 
-  handle = open(obj->modname, O_WRONLY | O_CREAT | O_TRUNC , 255);
+  handle = open(obj->modname, O_WRONLY | O_CREAT | O_TRUNC, 255);
 
   if (write(handle, work->thefile, work->filelen) != work->filelen)
     fatal("Error copying module %s from library", obj->modname);
@@ -299,11 +302,13 @@ char *argv[];
   writeout();
 }
 
-void main(argc, argv) int argc;
+int main(argc, argv) int argc;
 char *argv[];
 {
   puts("LIB6502 -- The 6502 library manager");
   puts("           (c) Copyright 1990-2019  Jos Visser\n");
 
   doit(argc, argv);
+
+	return 0;
 }

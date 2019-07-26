@@ -56,7 +56,7 @@ PUBLIC void fatal(char *s, ...) {
   vsprintf(line, s, args);
   va_end(args);
   printf("FATAL: %s\n", line);
-  exit(999);
+  exit(1);
 }
 
 PUBLIC void error(char *s, ...) {
