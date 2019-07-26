@@ -2,6 +2,8 @@
 
 Quick instructions while I get my act together:
 
+```
 $ make
 $ ./as6502 test/copy.a65 -l
 $ cat test/copy.lst
+```
