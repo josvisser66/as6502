@@ -41,14 +41,14 @@ char *argv[];
   }
 
   fnsplit(argv[1], drive, dir, file, NULL);
-  fnmerge(newpath, drive, dir, file, ".O65");
+  fnmerge(newpath, drive, dir, file, "o65");
   objname = strdup(newpath);
 
   for (i = 2; i < argc; i++) {
     strupr(argv[i]);
 
     if (strcmp(argv[i], "-L") == 0) {
-      fnmerge(newpath, drive, dir, file, ".LST");
+      fnmerge(newpath, drive, dir, file, "lst");
       flagL = strdup(newpath);
     } else
       fatal("Unknown flag %s", argv[i]);
