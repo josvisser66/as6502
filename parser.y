@@ -36,7 +36,7 @@ PRIVATE void exprelerr(flag)
 		long num;
 		void *id;
 		char str[STRINGLEN];
-		char mnem[3];
+		char mnem[4];
 		struct	{
 				boolean external;
 				boolean absolute;
@@ -357,7 +357,7 @@ adrmode		:	/* epsilon */
 label		:	labelSYM
 			{
 				setvalue($1,(long)lc);
-				strcpy($$,$1);
+				$$ = $1;
 			}
 		;
 		
