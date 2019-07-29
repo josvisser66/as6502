@@ -16,5 +16,5 @@ typedef enum {
   INDIRECT
 } adrmode;
 
-extern void assemble(char *mnem, adrmode adrmode, int external, void *id,
+extern void assemble(const char *mnem, adrmode adrmode, int external, void *id,
                      long num, int absolute);

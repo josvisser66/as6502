@@ -2,11 +2,11 @@
 
 #include <stdarg.h>
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
 
-#include "jos.h"
 #include "as6502.h"
+#include "jos.h"
 
 #define MAXERRS 10
 
@@ -20,11 +20,9 @@ extern FILE *listfile;
 
 PUBLIC int yywrap() { return 1; }
 
-PUBLIC void yyerror(s) char *s;
-{}
+PUBLIC void yyerror(const char *s) {}
 
-PRIVATE int digit(d) char d;
-{
+PRIVATE int digit(char d) {
   if (d >= '0' && d <= '9')
     return (int)(d - '0');
   else if (d >= 'a' && d <= 'z')
@@ -35,10 +33,8 @@ PRIVATE int digit(d) char d;
     return 0;
 }
 
-PUBLIC long calcnum(text, base) char text[];
-int base;
-{
-  register int i;
+PUBLIC long calcnum(const char *text, int base) {
+  int i;
   long result = 0L;
 
   for (i = 1; text[i]; i++) {
@@ -48,7 +44,7 @@ int base;
   return result;
 }
 
-PUBLIC void fatal(char *s, ...) {
+PUBLIC void fatal(const char *s, ...) {
   va_list args;
   char line[132];
 
@@ -59,7 +55,7 @@ PUBLIC void fatal(char *s, ...) {
   exit(1);
 }
 
-PUBLIC void error(char *s, ...) {
+PUBLIC void error(const char *s, ...) {
   if (pass == 1)
     return;
 

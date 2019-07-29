@@ -1,6 +1,6 @@
 /* Utility procedures header file */
 
-extern long calcnum(char *text, int base);
-extern void fatal(char *s, ... );
-extern void error(char *s, ... );
+extern long calcnum(const char *text, int base);
+extern void fatal(const char *s, ... );
+extern void error(const char *s, ... );
 extern void dequeue_errs();

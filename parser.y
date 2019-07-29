@@ -19,7 +19,7 @@ extern FILE *listfile;
 extern int pass;
 extern char listline[];
 extern int yylex();
-extern void yyerror(char *s);
+extern void yyerror(const char *s);
 
 PRIVATE int flagset;
 

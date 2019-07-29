@@ -1,14 +1,14 @@
 /* Manage the assembler symbol table */
 
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 
-#include "jos.h"
 #include "as6502.h"
-#include "obj65.h"
 #include "id.h"
+#include "jos.h"
+#include "obj65.h"
 #include "utils.h"
 
 extern FILE *listfile;
@@ -51,13 +51,10 @@ PRIVATE struct segment *newseg() {
   return work;
 }
 
-PRIVATE void findid(id, seg, item) char *id;
-struct segment **seg;
-struct item **item;
-{
-  register struct segment *work = root;
+PRIVATE void findid(const char *id, struct segment **seg, struct item **item) {
+  struct segment *work = root;
   struct segment *last = NULL;
-  register int i;
+  int i;
 
   while (work != NULL) {
     last = work;
@@ -76,9 +73,7 @@ struct item **item;
   *item = NULL;
 }
 
-PRIVATE struct item *addid(id, seg) char *id;
-struct segment *seg;
-{
+PRIVATE struct item *addid(const char *id, struct segment *seg) {
   struct item *it;
 
   if (seg == NULL)
@@ -100,9 +95,7 @@ struct segment *seg;
   return it;
 }
 
-PUBLIC void setflags(id, flags) void *id;
-int flags;
-{
+PUBLIC void setflags(void *id, int flags) {
   ID->flags |= flags;
 
   if (ID->flags & PUBLICSYM && ID->flags & EXTERNALSYM) {
@@ -112,9 +105,7 @@ int flags;
   }
 }
 
-PUBLIC void setvalue(id, value) void *id;
-long value;
-{
+PUBLIC void setvalue(void *id, long value) {
   if (ID->flags & EXTERNALSYM)
     error("Cannot assign a value to external symbol %s", ID->id);
   else {
@@ -123,8 +114,7 @@ long value;
   }
 }
 
-PRIVATE void defined_id(id) struct item *id;
-{
+PRIVATE void defined_id(struct item *id) {
   if (pass == 1)
     return;
 
@@ -134,21 +124,19 @@ PRIVATE void defined_id(id) struct item *id;
   }
 }
 
-PUBLIC long getvalue(id) void *id;
-{
+PUBLIC long getvalue(void *id) {
   defined_id(id);
   return ID->value;
 }
 
-PUBLIC int getflags(id) void *id;
-{
+PUBLIC int getflags(void *id) {
   defined_id(id);
   return ID->flags;
 }
 
 PUBLIC void dumptable() {
-  register struct segment *work = root;
-  register int i;
+  struct segment *work = root;
+  int i;
 
   if (!listfile)
     return;
@@ -165,8 +153,7 @@ PUBLIC void dumptable() {
   }
 }
 
-PUBLIC void *getid(id) char *id;
-{
+PUBLIC void *getid(const char *id) {
   struct segment *seg;
   struct item *item;
 
@@ -178,9 +165,7 @@ PUBLIC void *getid(id) char *id;
   return item;
 }
 
-PUBLIC void external_req(id, at_lc) void *id;
-word at_lc;
-{
+PUBLIC void external_req(void *id, word at_lc) {
   struct extreq *work;
 
   if (pass == 1)
@@ -192,10 +177,9 @@ word at_lc;
   ID->root = work;
 }
 
-PUBLIC void writeid(objfile) int objfile;
-{
-  register struct segment *work = root;
-  register struct item *ip;
+PUBLIC void writeid(int objfile) {
+  struct segment *work = root;
+  struct item *ip;
   int i;
   struct extreq *req;
   struct obj65rec orec;

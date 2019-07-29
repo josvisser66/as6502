@@ -1,17 +1,17 @@
 /* The MAIN file of the 6502 assembler */
 
-#include <stdio.h>
-#include <string.h>
-#include <fcntl.h>
 #include <errno.h>
-#include <unistd.h>
+#include <fcntl.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 
-#include "jos.h"
 #include "as6502.h"
-#include "id.h"
 #include "code.h"
 #include "compat.h"
+#include "id.h"
+#include "jos.h"
 #include "utils.h"
 
 PUBLIC FILE *listfile = NULL;
@@ -26,9 +26,7 @@ extern FILE *yyin;
 extern int total_errs;
 extern void reset_input();
 
-void scanargs(argc, argv) int argc;
-char *argv[];
-{
+void scanargs(int argc, char *argv[]) {
   char drive[MAXDRIVE];
   char dir[MAXDIR];
   char file[MAXFILE];
@@ -55,9 +53,7 @@ char *argv[];
   }
 }
 
-int main(argc, argv) int argc;
-char *argv[];
-{
+int main(int argc, char *argv[]) {
   puts("as6502 -- A 6502 Assembler");
   puts("          (c) Copyright 1990-2019  Jos Visser\n");
 
@@ -112,5 +108,5 @@ char *argv[];
     close(objfile);
   }
 
-	return 0;
+  return 0;
 }

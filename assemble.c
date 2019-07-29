@@ -86,7 +86,7 @@ PRIVATE void bad_adrmode() { error("Illegal addressing mode"); }
     return;                                                                    \
   }
 
-PUBLIC void assemble(char *mnem, adrmode adrmode, boolean external, void *id,
+PUBLIC void assemble(const char *mnem, adrmode adrmode, boolean external, void *id,
                      long num, boolean absolute) {
   register int i;
   int displ;

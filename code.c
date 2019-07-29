@@ -27,8 +27,8 @@ extern FILE *listfile;
 extern int pass;
 
 PRIVATE void newpage() {
-  register int i;
-  register unsigned newlen = codeseglen + 256;
+  int i;
+  unsigned newlen = codeseglen + 256;
 
   if (code)
     code = realloc(code, newlen);
@@ -44,9 +44,8 @@ PRIVATE void newpage() {
   codeseglen = newlen;
 }
 
-PUBLIC void emit(b) unsigned char b;
-{
-  register int i;
+PUBLIC void emit(unsigned char b) {
+  int i;
   char s[4];
 
   while (lc >= codeseglen)
@@ -74,28 +73,24 @@ PUBLIC void emit(b) unsigned char b;
   sprintf(listline, "%04X   %02X          %4d\n", lc - 1, (int)b, lineno);
 }
 
-PUBLIC void emit2(w) word w;
-{
+PUBLIC void emit2(word w) {
   emit(w % 256);
   emit(w / 256);
 }
 
-PUBLIC void emit4(d) doubleword d;
-{
+PUBLIC void emit4(doubleword d) {
   emit2(d % 65536);
   emit2(d / 65536);
 }
 
-PUBLIC byte getcode(at_lc) word at_lc;
-{
+PUBLIC byte getcode(word at_lc) {
   while (lc >= codeseglen)
     newpage();
 
   return *(code + at_lc);
 }
 
-PUBLIC void writecode(objfile) int objfile;
-{
+PUBLIC void writecode(int objfile) {
   struct reloc *work = reloc_root;
   struct obj65rec orec;
 
@@ -113,16 +108,14 @@ PUBLIC void writecode(objfile) int objfile;
   write(objfile, code, highwater - 1);
 }
 
-PUBLIC void set_lc(newlc) word newlc;
-{
+PUBLIC void set_lc(word newlc) {
   lc = newlc;
 
   if (lc >= highwater)
     highwater = lc + 1;
 }
 
-PUBLIC void reloc_req(at_lc) unsigned at_lc;
-{
+PUBLIC void reloc_req(word at_lc) {
   struct reloc *work;
 
   if (pass == 1)

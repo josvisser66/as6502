@@ -43,9 +43,7 @@ void fatal(char *s, ...) {
   if (write(a, b, c) != c)                                                     \
   fatal("Error writing library")
 
-void writeout2(libmem, handle) struct lib *libmem;
-int handle;
-{
+void writeout2(struct lib *libmem, int handle) {
   if (!libmem)
     return;
   else
@@ -100,8 +98,7 @@ void bringin() {
   close(handle);
 }
 
-struct lib *bringin2a(modname) char *modname;
-{
+struct lib *bringin2a(const char *modname) {
   struct lib *work;
   char drive[MAXDRIVE];
   char dir[MAXDIR];
@@ -131,8 +128,7 @@ struct lib *bringin2a(modname) char *modname;
   return work;
 }
 
-struct lib *bringin2(modname) char *modname;
-{
+struct lib *bringin2(const char *modname) {
   char drive[MAXDRIVE];
   char dir[MAXDIR];
   char file[MAXFILE];
@@ -156,8 +152,7 @@ struct lib *bringin2(modname) char *modname;
   return work;
 }
 
-struct lib *search(name) char *name;
-{
+struct lib *search(const char *name) {
   struct lib *walk;
 
   walk = root;
@@ -176,8 +171,7 @@ struct lib *search(name) char *name;
   if (!((a)->thefile))                                                         \
   fatal("Object file %s not found", (a)->modname)
 
-void oadd(obj) struct lib *obj;
-{
+void oadd(struct lib *obj) {
   EXISTS(obj);
 
   if (search(obj->modname))
@@ -187,8 +181,7 @@ void oadd(obj) struct lib *obj;
   root = obj;
 }
 
-void oupdate(obj) struct lib *obj;
-{
+void oupdate(struct lib *obj) {
   struct lib *work;
 
   EXISTS(obj);
@@ -203,8 +196,7 @@ void oupdate(obj) struct lib *obj;
   free(obj);
 }
 
-void odelete(obj) struct lib *obj;
-{
+void odelete(struct lib *obj) {
   struct lib *work = search(obj->modname);
 
   if (!work)
@@ -213,8 +205,7 @@ void odelete(obj) struct lib *obj;
   work->deleted = 1;
 }
 
-void ocopy(obj) struct lib *obj;
-{
+void ocopy(struct lib *obj) {
   struct lib *work = search(obj->modname);
   int handle;
 
@@ -229,9 +220,7 @@ void ocopy(obj) struct lib *obj;
   close(handle);
 }
 
-void perform(obj, action) struct lib *obj;
-char *action;
-{
+void perform(struct lib *obj, const char *action) {
   if (strcmp(action, "+ ") == 0)
     oadd(obj);
   else if (strcmp(action, "- ") == 0)
@@ -244,9 +233,7 @@ char *action;
     fatal("Invalid action %s on %s", action, obj);
 }
 
-void doit(argc, argv) int argc;
-char *argv[];
-{
+void doit(int argc, char *argv[]) {
   char drive[MAXDRIVE];
   char dir[MAXDIR];
   char file[MAXFILE];
@@ -302,13 +289,11 @@ char *argv[];
   writeout();
 }
 
-int main(argc, argv) int argc;
-char *argv[];
-{
+int main(int argc, char *argv[]) {
   puts("LIB6502 -- The 6502 library manager");
   puts("           (c) Copyright 1990-2019  Jos Visser\n");
 
   doit(argc, argv);
 
-	return 0;
+  return 0;
 }
