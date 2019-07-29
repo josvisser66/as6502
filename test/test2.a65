@@ -1,11 +1,11 @@
-start	ldx	#bufend-buf
-	lda	#0
-	
-loop	sta	buf,x
-	dex
-	bne	loop
-	
-	rts
-	
-buf	ds	100
-bufend	equ	*
+start   ldx     #bufend-buf
+        lda     #0
+        
+loop    sta     buf,x
+        dex
+        bne     loop
+        
+        rts
+        
+buf     ds      100
+bufend  equ     *

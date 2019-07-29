@@ -1,23 +1,23 @@
-; Copy a page from regX ro regY
+; Copy a page from (src) to (dest).
 
-	public	copy
-	
-src	equ	$70
-dest	equ	$72
+        public  copy
+        
+src     equ     $70
+dest    equ     $72
 
-	db	'Copyright 1990 Jos Visser'
-	
-copy	stx	src
-	sty	dest
-	lda	#0
-	sta	src+1
-	sta	dest+1
-	
-	ldy	#0
-	
-loop	lda	(src),y
-	sta	(dest),y
-	iny
-	bne	loop
-	
-	rts
+        db      'Copyright 1990-2019Jos Visser'
+        
+copy    stx     src
+        sty     dest
+        lda     #0
+        sta     src+1
+        sta     dest+1
+        
+        ldy     #0
+        
+loop    lda     (src),y
+        sta     (dest),y
+        iny
+        bne     loop
+        
+        rts

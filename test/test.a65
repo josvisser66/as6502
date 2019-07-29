@@ -1,21 +1,21 @@
 ;
-	extern	exit,buf
-	public	start
-	
-write	equ	$FFEE
+        extern  exit,buf
+        public  start
+        
+write   equ     $FFEE
 
-start	ldx	#0
+start   ldx     #0
 
-loop	lda	kar,x
-	beq	endloop
-	jsr	write
-	inx
-	bne	loop
+loop    lda     kar,x
+        beq     endloop
+        jsr     write
+        inx
+        bne     loop
 
-endloop	sta	buf
-	stx	buf+1
-	jmp	exit
-	
-kar	db	'jos visser'
+endloop sta     buf
+        stx     buf+1
+        jmp     exit
+        
+kar     db      'jos visser'
 
-	end 	start
+        end     start
